@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using SocialSphere___MVC.Data;
+
 namespace SocialSphere___MVC
 {
     public class Program
@@ -8,7 +11,12 @@ namespace SocialSphere___MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(
+                builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+                
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
