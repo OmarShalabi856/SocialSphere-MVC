@@ -11,8 +11,6 @@ namespace SocialSphere___MVC.Models
         public int? Mileage { get; set; }
 
         public Address? Address { get; set; }
-
-        public List<Race> Races { get; set; } = [];
         public List<Club> Clubs { get; set; } = [];
 
     }

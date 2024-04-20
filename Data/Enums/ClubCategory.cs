@@ -2,9 +2,16 @@
 {
     public enum ClubCategory
     {
-       Charity,
-       RoadRunner,
-       Youth,
-       TrailRunner
+        Sports,
+        ArtAndCreativity,
+        ScienceAndTechnology,
+        AcademicAndEducation,
+        HobbiesAndInterests,
+        CulturalAndDiversity,
+        CareerAndProfessionalDevelopment,
+        CommunityServiceAndVolunteering,
+        GamingAndTechnology,
+        FashionAndDesign
     }
+
 }

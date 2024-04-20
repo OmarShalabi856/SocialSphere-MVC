@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SocialSphere___MVC.Data;
+using SocialSphere___MVC.Repository;
 
 namespace SocialSphere___MVC
 {
@@ -17,6 +18,7 @@ namespace SocialSphere___MVC
                 builder.Configuration.GetConnectionString("DefaultConnection"));
             });
                 
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
