@@ -16,5 +16,29 @@ namespace SocialSphere___MVC.Controllers
             var clubs = await _repository.GetAllAsync();
             return View(clubs);
         }
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            var club = await _repository.GetByIdAsync(id);
+            return View(club);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Club club)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(club);
+            }
+
+           await _repository.CreateAsync(club);  
+            return RedirectToAction("Index");
+            
+        }
     }
 }
