@@ -1,42 +1,48 @@
-﻿@using SocialSphere___MVC.Data.Enums
-@model Club
-@{
+﻿@model SocialSphere___MVC.Models.Club
+@using SocialSphere___MVC.Data.Enums
 
-    <form method="post">
-        <div class="form-group">
-            <label>Name</label>
-            <input asp-for="Title" type="text" class="form-control" placeholder="Title">
-        </div>
-        <div class="form-group">
-            <label>Description</label>
-            <textarea asp-for="Description" type="text" class="form-control" placeholder="Description"></textarea>
-        </div>
-        <div class="form-group">
-            <label>Image</label>
-            <input asp-for="Image" type="text" class="form-control" placeholder="Image"/>
-        </div>
-        <div class="form-group">
-            <label>Category</label>
-            <select asp-for="ClubCategory" asp-items="@Html.GetEnumSelectList<ClubCategory>()">
-            <option>----Select-----</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Image</label>
-            <textarea asp-for="Image" type="text" class="form-control" placeholder="Image"></textarea>
-        </div>
-         <div class="form-group">
-            <label>Country</label>
-            <input asp-for="Address.Country" type="text" class="form-control" placeholder="Country"/>
-        </div>
-        <div class="form-group">
-            <label>Town</label>
-            <input asp-for="Address.Town" type="text" class="form-control" placeholder="Town" />
-        </div>
-        <div class="form-group">
-            <label>Street</label>
-            <input asp-for="Address.Street" type="text" class="form-control" placeholder="Street" />
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+<form method="post">
+    <div class="form-group">
+        <label>Name</label>
+        <input asp-for="Title" type="text" class="form-control" placeholder="Title">
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <textarea asp-for="Description" class="form-control" placeholder="Description"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Image</label>
+        <input asp-for="Image" type="text" class="form-control" placeholder="Image" />
+    </div>
+    <div class="form-group">
+        <label>Category</label>
+        <select asp-for="ClubCategory" asp-items="Html.GetEnumSelectList<ClubCategory>()" class="form-control">
+            <option value="">---- Select ----</option>
+        </select>
+        <span asp-validation-for="ClubCategory" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Country</label>
+        <input asp-for="Address.Country" type="text" class="form-control" placeholder="Country" />
+        <span asp-validation-for="Address.Country" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Town</label>
+        <input asp-for="Address.Town" type="text" class="form-control" placeholder="Town" />
+        <span asp-validation-for="Address.Town" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Street</label>
+        <input asp-for="Address.Street" type="text" class="form-control" placeholder="Street" />
+        <span asp-validation-for="Address.Street" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
