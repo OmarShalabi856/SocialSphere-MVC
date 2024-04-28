@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SocialSphere___MVC.Data;
+using SocialSphere___MVC.Helpers;
 using SocialSphere___MVC.Repository;
+using SocialSphere___MVC.Services;
 
 namespace SocialSphere___MVC
 {
@@ -19,6 +21,8 @@ namespace SocialSphere___MVC
             });
                 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+            builder.Services.AddScoped<IPhotoService, PhotoService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

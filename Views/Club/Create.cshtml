@@ -1,7 +1,7 @@
-﻿@model SocialSphere___MVC.Models.Club
+﻿@model SocialSphere___MVC.ViewModels.CreateClubViewModel
 @using SocialSphere___MVC.Data.Enums
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label>Name</label>
         <input asp-for="Title" type="text" class="form-control" placeholder="Title">
@@ -14,7 +14,7 @@
     </div>
     <div class="form-group">
         <label>Image</label>
-        <input asp-for="Image" type="text" class="form-control" placeholder="Image" />
+        <input asp-for="Image" type="file" class="form-control" placeholder="Image" />
     </div>
     <div class="form-group">
         <label>Category</label>
