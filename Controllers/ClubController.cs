@@ -1,15 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialSphere___MVC.Models;
 using SocialSphere___MVC.Repository;
+using SocialSphere___MVC.Services;
+using SocialSphere___MVC.ViewModels;
 
 namespace SocialSphere___MVC.Controllers
 {
     public class ClubController : Controller
     {
         public readonly IRepository<Club> _repository;
-        public ClubController(IRepository<Club> repository)
+        public readonly IPhotoService _photoservice;
+        public ClubController(IRepository<Club> repository,IPhotoService photoService)
         {
             _repository = repository;
+            _photoservice = photoService;
         }
         public async Task<IActionResult> Index()
         {
@@ -29,16 +33,33 @@ namespace SocialSphere___MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Club club)
+        public async Task<IActionResult> Create(CreateClubViewModel clubVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(club);
+                var result = await _photoservice.AddPhotoAsync(clubVM.Image);
+                var club = new Club()
+                {
+                    Title = clubVM.Title,
+                    Description = clubVM.Title,
+                    Image = result.Url.ToString(),
+                    Address = new Address()
+                    {
+                        Street = clubVM.Address.Street,
+                        Town = clubVM.Address.Town, 
+                        Country = clubVM.Address.Country,
+                    },
+                    ClubCategory=clubVM.ClubCategory
+                };
+                await _repository.CreateAsync(club);
+                return RedirectToAction("Index");
             }
-
-           await _repository.CreateAsync(club);  
-            return RedirectToAction("Index");
-            
+            else
+            {
+                ModelState.AddModelError("", "Photo Upload Failed");
+               
+            }
+            return View(clubVM);
         }
     }
 }
