@@ -3,6 +3,7 @@ using SocialSphere___MVC.Models;
 using SocialSphere___MVC.Repository;
 using SocialSphere___MVC.Services;
 using SocialSphere___MVC.ViewModels;
+using System.Linq.Expressions;
 
 namespace SocialSphere___MVC.Controllers
 {
@@ -60,6 +61,68 @@ namespace SocialSphere___MVC.Controllers
                
             }
             return View(clubVM);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var club = await _repository.GetClubByIdAsync(id);
+            if(club is null)
+            {
+                return View("Error");
+            }
+            var clubVM = new EditClubViewModel()
+            {
+                Title = club.Title,
+                Description = club.Description,
+                Address = club.Address,
+                AddressId = club.AddressId,
+                ClubCategory=club.ClubCategory,
+
+            };
+            return View(clubVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id,EditClubViewModel editClubViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Failed To Edit Club!");
+                return View("Edit", editClubViewModel);
+            }
+
+            var clubToEdit = await _repository.GetByIdAsync(id);
+            if (clubToEdit != null)
+            {
+                try
+                {
+                    await _photoservice.DeletePhotoAsync(clubToEdit.Image);
+                }
+                catch(Exception ex)
+                {
+                    ModelState.AddModelError("", "Could Not Delete Photo");
+                    return View(editClubViewModel);
+                }
+
+                var photoResult = await _photoservice.AddPhotoAsync(editClubViewModel.Image);
+
+                var club = new Club()
+                {
+                    Id = id,
+                    Title = editClubViewModel.Title,
+                    Description = editClubViewModel.Description,
+                    Image = editClubViewModel?.Image?.ToString()??"",
+                    AddressId = editClubViewModel.AddressId,
+                    Address = editClubViewModel.Address
+                };
+                await _repository.UpdateAsync(id,club);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(editClubViewModel);
+            }
+
         }
     }
 }

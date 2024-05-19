@@ -5,9 +5,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SocialSphere___MVC.ViewModels
 {
-    public class CreateClubViewModel
+    public class EditClubViewModel
     {
-        
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Title is required")]

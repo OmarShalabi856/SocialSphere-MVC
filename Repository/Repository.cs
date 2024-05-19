@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialSphere___MVC.Data;
+using SocialSphere___MVC.Models;
+using System.Linq.Expressions;
 
 namespace SocialSphere___MVC.Repository
 {
@@ -40,6 +42,12 @@ namespace SocialSphere___MVC.Repository
         {
             return await _context.Set<T>().FindAsync(id);
         }
+
+        public async Task<Club> GetClubByIdAsync(int id)
+        {
+            return await _context.Clubs.Include(c => c.Address).FirstOrDefaultAsync(i => i.Id == id);
+        }
+
 
         public async Task<T> UpdateAsync(int id, T updatedEntity)
         {
